@@ -58,7 +58,11 @@ function BreedRow({ item }) {
 
 export default function App() {
   const [show, setShow] = useState("dogs");
+  const [searchQuery, setSearchQuery] = useState("");
   const data = show === "dogs" ? dogs : cats;
+  const filteredData = data.filter((items) => 
+    item.breed.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -80,6 +84,8 @@ export default function App() {
           </Pressable>
         </View>
       </View>
+
+      <View style = {styles}
 
       <FlatList
         style={styles.list}
