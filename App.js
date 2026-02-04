@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   Pressable,
+  TextInput,
 } from "react-native";
 
 import { cats, dogs } from "./breeds";
