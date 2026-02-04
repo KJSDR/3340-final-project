@@ -60,7 +60,7 @@ export default function App() {
   const [show, setShow] = useState("dogs");
   const [searchQuery, setSearchQuery] = useState("");
   const data = show === "dogs" ? dogs : cats;
-  const filteredData = data.filter((items) => 
+  const filteredData = data.filter((item) => 
     item.breed.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -85,12 +85,19 @@ export default function App() {
         </View>
       </View>
 
-      <View style = {styles}
+      <View style = {styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search breeds"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
 
       <FlatList
         style={styles.list}
         contentContainerStyle={styles.listContent}
-        data={data}
+        data={filteredData}
         keyExtractor={(item) => item.breed}
         renderItem={({ item }) => <BreedRow item={item} />}
       />
@@ -207,5 +214,23 @@ const styles = StyleSheet.create({
   //challenge 7
   stars: {
     fontSize: 14,
+  },
+
+  //search bar
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#f9f9f9",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  searchInput: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    fontSize: 16,
   },
 });
