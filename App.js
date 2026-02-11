@@ -1,37 +1,39 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './HomeScreen';
-import DetailScreen from './DetailScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import DogsStack from './DogsStack';
+import CatsStack from './CatsStack';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#fff',
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            const icons = {
+              Dogs: focused ? 'paw' : 'paw-outline',
+              Cats: focused ? 'paw' : 'paw-outline',
+            };
+
+            return (
+              <Ionicons
+                name={icons[route.name] ?? 'help-circle-outline'}
+                size={size}
+                color={color}
+              />
+            );
           },
-          headerTintColor: '#000',
-          headerTitleStyle: {
-            fontWeight: '700',
-          },
-        }}
+          tabBarActiveTintColor: '#111',
+          tabBarInactiveTintColor: '#999',
+          headerShown: false,
+        })}
       >
-        <Stack.Screen 
-          name="Home" 
-          component={HomeScreen}
-          options={{ title: 'By Breed' }}
-        />
-        <Stack.Screen 
-          name="Detail" 
-          component={DetailScreen}
-          options={({ route }) => ({ title: route.params.item.breed })}
-        />
-      </Stack.Navigator>
+        <Tab.Screen name="Dogs" component={DogsStack} />
+        <Tab.Screen name="Cats" component={CatsStack} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
