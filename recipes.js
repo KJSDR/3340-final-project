@@ -9,7 +9,7 @@ export const recipes = [
       prepTime: "30 min",
       cookTime: "1 hour",
       servings: 4,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/coq-au-vin.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/coq-au-vin.jpg",
       ingredients: [
         { id: "1", name: "Chicken thighs", amount: 8, unit: "pieces" },
         { id: "2", name: "Red wine", amount: 2, unit: "cups" },
@@ -34,7 +34,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "45 min",
       servings: 6,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/ratatouille.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/ratatouille.jpg",
       ingredients: [
         { id: "1", name: "Eggplant", amount: 1, unit: "piece" },
         { id: "2", name: "Zucchini", amount: 2, unit: "pieces" },
@@ -59,7 +59,7 @@ export const recipes = [
       prepTime: "15 min",
       cookTime: "40 min",
       servings: 4,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/creme-brulee.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/creme-brulee.jpg",
       ingredients: [
         { id: "1", name: "Heavy cream", amount: 2, unit: "cups" },
         { id: "2", name: "Egg yolks", amount: 6, unit: "pieces" },
@@ -82,7 +82,7 @@ export const recipes = [
       prepTime: "30 min",
       cookTime: "2.5 hours",
       servings: 6,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/boeuf-bourg.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/boeuf-bourg.jpg",
       ingredients: [
         { id: "1", name: "Beef chuck", amount: 1.5, unit: "kg" },
         { id: "2", name: "Red wine", amount: 3, unit: "cups" },
@@ -111,7 +111,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "3 hours",
       servings: 4,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/duck-confit.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/duck-confit.jpg",
       ingredients: [
         { id: "1", name: "Duck legs", amount: 4, unit: "pieces" },
         { id: "2", name: "Duck fat", amount: 4, unit: "cups" },
@@ -138,7 +138,7 @@ export const recipes = [
       prepTime: "15 min",
       cookTime: "45 min",
       servings: 4,
-      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/poulet-champs.jpg", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/poulet-champs.jpg",
       ingredients: [
         { id: "1", name: "Chicken breasts", amount: 4, unit: "pieces" },
         { id: "2", name: "Mushrooms", amount: 400, unit: "g" },
@@ -168,7 +168,7 @@ export const recipes = [
       prepTime: "15 min",
       cookTime: "0 min",
       servings: 4,
-      imageUrl: "PLACEHOLDER_SMORREBROD", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/smorrebrod.jpg",
       ingredients: [
         { id: "1", name: "Rye bread", amount: 8, unit: "slices" },
         { id: "2", name: "Butter", amount: 100, unit: "g" },
@@ -193,7 +193,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "20 min",
       servings: 6,
-      imageUrl: "PLACEHOLDER_FRIKADELLER", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/frika.jpg",
       ingredients: [
         { id: "1", name: "Ground pork", amount: 500, unit: "g" },
         { id: "2", name: "Ground veal", amount: 250, unit: "g" },
@@ -218,7 +218,7 @@ export const recipes = [
       prepTime: "10 min",
       cookTime: "15 min",
       servings: 20,
-      imageUrl: "PLACEHOLDER_AEBLESKIVER", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/aebleskiver.jpg",
       ingredients: [
         { id: "1", name: "Flour", amount: 2, unit: "cups" },
         { id: "2", name: "Buttermilk", amount: 2, unit: "cups" },
@@ -243,7 +243,7 @@ export const recipes = [
       prepTime: "10 min",
       cookTime: "20 min",
       servings: 4,
-      imageUrl: "PLACEHOLDER_STEGT_FLAESK", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/stegt-flasek.jpg",
       ingredients: [
         { id: "1", name: "Pork belly", amount: 800, unit: "g" },
         { id: "2", name: "Potatoes", amount: 1, unit: "kg" },
@@ -269,7 +269,7 @@ export const recipes = [
       prepTime: "30 min",
       cookTime: "0 min",
       servings: 12,
-      imageUrl: "PLACEHOLDER_FLODEBOLLER", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/floderboler.jpg",
       ingredients: [
         { id: "1", name: "Marzipan", amount: 200, unit: "g" },
         { id: "2", name: "Egg whites", amount: 3, unit: "pieces" },
@@ -295,7 +295,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "1 hour",
       servings: 8,
-      imageUrl: "PLACEHOLDER_LEVERPOSTEJ", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/leverpostej.jpg",
       ingredients: [
         { id: "1", name: "Pork liver", amount: 500, unit: "g" },
         { id: "2", name: "Pork fat", amount: 300, unit: "g" },
