@@ -5,9 +5,11 @@ export const recipes = [
       id: "1",
       name: "Coq au Vin",
       cuisine: "French",
+      category: "Dinner",
       prepTime: "30 min",
       cookTime: "1 hour",
       servings: 4,
+      imageUrl: "PLACEHOLDER_COQ_AU_VIN", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Chicken thighs", amount: 8, unit: "pieces" },
         { id: "2", name: "Red wine", amount: 2, unit: "cups" },
@@ -28,9 +30,11 @@ export const recipes = [
       id: "2",
       name: "Ratatouille",
       cuisine: "French",
+      category: "Entrée",
       prepTime: "20 min",
       cookTime: "45 min",
       servings: 6,
+      imageUrl: "PLACEHOLDER_RATATOUILLE", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Eggplant", amount: 1, unit: "piece" },
         { id: "2", name: "Zucchini", amount: 2, unit: "pieces" },
@@ -51,9 +55,11 @@ export const recipes = [
       id: "3",
       name: "Crème Brûlée",
       cuisine: "French",
+      category: "Dessert",
       prepTime: "15 min",
       cookTime: "40 min",
       servings: 4,
+      imageUrl: "PLACEHOLDER_CREME_BRULEE", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Heavy cream", amount: 2, unit: "cups" },
         { id: "2", name: "Egg yolks", amount: 6, unit: "pieces" },
@@ -68,15 +74,101 @@ export const recipes = [
         "Chill, then caramelize sugar on top",
       ],
     },
+    {
+      id: "11",
+      name: "Boeuf Bourguignon",
+      cuisine: "French",
+      category: "Dinner",
+      prepTime: "30 min",
+      cookTime: "2.5 hours",
+      servings: 6,
+      imageUrl: "PLACEHOLDER_BOEUF_BOURGUIGNON", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Beef chuck", amount: 1.5, unit: "kg" },
+        { id: "2", name: "Red wine", amount: 3, unit: "cups" },
+        { id: "3", name: "Bacon", amount: 200, unit: "g" },
+        { id: "4", name: "Pearl onions", amount: 12, unit: "pieces" },
+        { id: "5", name: "Carrots", amount: 3, unit: "pieces" },
+        { id: "6", name: "Mushrooms", amount: 300, unit: "g" },
+        { id: "7", name: "Tomato paste", amount: 2, unit: "tbsp" },
+        { id: "8", name: "Beef stock", amount: 2, unit: "cups" },
+      ],
+      instructions: [
+        "Cut beef into large chunks and brown in batches",
+        "Cook bacon until crispy, set aside",
+        "Sauté onions and carrots until caramelized",
+        "Add tomato paste and cook for 1 minute",
+        "Return beef to pot, add wine and stock",
+        "Simmer covered for 2.5 hours until tender",
+        "Add mushrooms in the last 30 minutes",
+      ],
+    },
+    {
+      id: "12",
+      name: "Canard Confit",
+      cuisine: "French",
+      category: "Dinner",
+      prepTime: "20 min",
+      cookTime: "3 hours",
+      servings: 4,
+      imageUrl: "PLACEHOLDER_CANARD_CONFIT", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Duck legs", amount: 4, unit: "pieces" },
+        { id: "2", name: "Duck fat", amount: 4, unit: "cups" },
+        { id: "3", name: "Coarse salt", amount: 2, unit: "tbsp" },
+        { id: "4", name: "Thyme", amount: 4, unit: "sprigs" },
+        { id: "5", name: "Garlic", amount: 6, unit: "cloves" },
+        { id: "6", name: "Bay leaves", amount: 2, unit: "pieces" },
+      ],
+      instructions: [
+        "Season duck legs generously with salt",
+        "Refrigerate overnight",
+        "Rinse off salt and pat dry",
+        "Place duck in deep pan with garlic, thyme, and bay leaves",
+        "Cover completely with duck fat",
+        "Cook in oven at 225°F for 3 hours",
+        "Store in fat or crisp skin before serving",
+      ],
+    },
+    {
+      id: "13",
+      name: "Poulet à la Crème de Champignons",
+      cuisine: "French",
+      category: "Dinner",
+      prepTime: "15 min",
+      cookTime: "45 min",
+      servings: 4,
+      imageUrl: "PLACEHOLDER_POULET_CREME", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Chicken breasts", amount: 4, unit: "pieces" },
+        { id: "2", name: "Mushrooms", amount: 400, unit: "g" },
+        { id: "3", name: "Heavy cream", amount: 1.5, unit: "cups" },
+        { id: "4", name: "White wine", amount: 0.5, unit: "cup" },
+        { id: "5", name: "Butter", amount: 3, unit: "tbsp" },
+        { id: "6", name: "Shallots", amount: 2, unit: "pieces" },
+        { id: "7", name: "Garlic", amount: 3, unit: "cloves" },
+      ],
+      instructions: [
+        "Season chicken and brown in butter",
+        "Remove chicken and set aside",
+        "Sauté shallots and garlic until soft",
+        "Add mushrooms and cook until golden",
+        "Deglaze with white wine",
+        "Add cream and return chicken to pan",
+        "Simmer for 20 minutes until chicken is cooked through",
+      ],
+    },
   
     // Danish Recipes
     {
       id: "4",
       name: "Smørrebrød",
       cuisine: "Danish",
+      category: "Entrée",
       prepTime: "15 min",
       cookTime: "0 min",
       servings: 4,
+      imageUrl: "PLACEHOLDER_SMORREBROD", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Rye bread", amount: 8, unit: "slices" },
         { id: "2", name: "Butter", amount: 100, unit: "g" },
@@ -97,9 +189,11 @@ export const recipes = [
       id: "5",
       name: "Frikadeller",
       cuisine: "Danish",
+      category: "Dinner",
       prepTime: "20 min",
       cookTime: "20 min",
       servings: 6,
+      imageUrl: "PLACEHOLDER_FRIKADELLER", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Ground pork", amount: 500, unit: "g" },
         { id: "2", name: "Ground veal", amount: 250, unit: "g" },
@@ -120,9 +214,11 @@ export const recipes = [
       id: "6",
       name: "Æbleskiver",
       cuisine: "Danish",
+      category: "Dessert",
       prepTime: "10 min",
       cookTime: "15 min",
       servings: 20,
+      imageUrl: "PLACEHOLDER_AEBLESKIVER", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Flour", amount: 2, unit: "cups" },
         { id: "2", name: "Buttermilk", amount: 2, unit: "cups" },
@@ -139,7 +235,85 @@ export const recipes = [
         "Turn with a skewer until golden all over",
       ],
     },
-    
+    {
+      id: "14",
+      name: "Stegt Flæsk",
+      cuisine: "Danish",
+      category: "Dinner",
+      prepTime: "10 min",
+      cookTime: "20 min",
+      servings: 4,
+      imageUrl: "PLACEHOLDER_STEGT_FLAESK", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Pork belly", amount: 800, unit: "g" },
+        { id: "2", name: "Potatoes", amount: 1, unit: "kg" },
+        { id: "3", name: "Parsley", amount: 1, unit: "bunch" },
+        { id: "4", name: "Butter", amount: 50, unit: "g" },
+        { id: "5", name: "Salt", amount: 1, unit: "tsp" },
+        { id: "6", name: "Pepper", amount: 0.5, unit: "tsp" },
+      ],
+      instructions: [
+        "Score the pork skin in a crosshatch pattern",
+        "Boil potatoes until tender",
+        "Fry pork belly skin-side down until crispy",
+        "Flip and cook until golden brown",
+        "Make parsley sauce with butter and chopped parsley",
+        "Serve pork with potatoes and parsley sauce",
+      ],
+    },
+    {
+      id: "15",
+      name: "Flødeboller",
+      cuisine: "Danish",
+      category: "Dessert",
+      prepTime: "30 min",
+      cookTime: "0 min",
+      servings: 12,
+      imageUrl: "PLACEHOLDER_FLODEBOLLER", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Marzipan", amount: 200, unit: "g" },
+        { id: "2", name: "Egg whites", amount: 3, unit: "pieces" },
+        { id: "3", name: "Sugar", amount: 1, unit: "cup" },
+        { id: "4", name: "Dark chocolate", amount: 300, unit: "g" },
+        { id: "5", name: "Vanilla extract", amount: 1, unit: "tsp" },
+      ],
+      instructions: [
+        "Roll marzipan into small discs for bases",
+        "Beat egg whites until stiff peaks form",
+        "Gradually add sugar while beating",
+        "Pipe meringue onto marzipan bases",
+        "Let set for 30 minutes",
+        "Melt chocolate and coat each flødebolle",
+        "Let chocolate set before serving",
+      ],
+    },
+    {
+      id: "16",
+      name: "Leverpostej",
+      cuisine: "Danish",
+      category: "Entrée",
+      prepTime: "20 min",
+      cookTime: "1 hour",
+      servings: 8,
+      imageUrl: "PLACEHOLDER_LEVERPOSTEJ", // Replace with actual image URL
+      ingredients: [
+        { id: "1", name: "Pork liver", amount: 500, unit: "g" },
+        { id: "2", name: "Pork fat", amount: 300, unit: "g" },
+        { id: "3", name: "Onions", amount: 2, unit: "pieces" },
+        { id: "4", name: "Anchovies", amount: 4, unit: "pieces" },
+        { id: "5", name: "Flour", amount: 3, unit: "tbsp" },
+        { id: "6", name: "Eggs", amount: 2, unit: "pieces" },
+        { id: "7", name: "Milk", amount: 1, unit: "cup" },
+      ],
+      instructions: [
+        "Grind liver, fat, onions, and anchovies",
+        "Mix in flour, eggs, and milk",
+        "Season with salt, pepper, and allspice",
+        "Pour into a greased loaf pan",
+        "Cover with foil and bake at 350°F for 1 hour",
+        "Cool and serve on rye bread with pickles",
+      ],
+    },
   ];
   
   // Organize recipes by cuisine for SectionList
@@ -149,4 +323,9 @@ export const recipes = [
       title: cuisine,
       data: recipes.filter((r) => r.cuisine === cuisine),
     }));
+  };
+  
+  // Get unique categories for filtering
+  export const getCategories = () => {
+    return [...new Set(recipes.map((r) => r.category))];
   };
