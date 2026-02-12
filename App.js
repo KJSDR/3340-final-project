@@ -29,7 +29,7 @@ function TabNavigator() {
             />
           );
         },
-        tabBarActiveTintColor: '#111',
+        tabBarActiveTintColor: '#002395',
         tabBarInactiveTintColor: '#999',
         headerShown: false,
       })}
