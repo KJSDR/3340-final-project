@@ -38,11 +38,20 @@ export default function AllRecipesScreen({ navigation }) {
     </TouchableOpacity>
   );
 
-  const renderSectionHeader = ({ section: { title } }) => (
-    <View style={styles.sectionHeader}>
-      <Text style={styles.sectionTitle}>{title}</Text>
-    </View>
-  );
+  const renderSectionHeader = ({ section: { title } }) => {
+    const flags = {
+      'French': '🇫🇷',
+      'Danish': '🇩🇰',
+    };
+
+    return (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>
+          {title} {flags[title] || ''}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
