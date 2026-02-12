@@ -6,16 +6,22 @@ import {
   SectionList,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import { getRecipesByCuisine, recipes } from "./recipes";
+import { getRecipesByCuisine, recipes, getCategories } from "./recipes";
 
 export default function AllRecipesScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   
-  // Filter recipes based on search
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const categories = ["All", ...getCategories()];
+  
+  // Filter recipes based on search and category
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || recipe.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   // Group filtered recipes by cuisine
   const sections = getRecipesByCuisine().map((section) => ({
@@ -32,6 +38,7 @@ export default function AllRecipesScreen({ navigation }) {
     >
       <Text style={styles.recipeName}>{item.name}</Text>
       <View style={styles.recipeInfo}>
+        <Text style={styles.categoryBadge}>{item.category}</Text>
         <Text style={styles.infoText}>⏱ {item.prepTime}</Text>
         <Text style={styles.infoText}>🍽 {item.servings} servings</Text>
       </View>
@@ -63,6 +70,31 @@ export default function AllRecipesScreen({ navigation }) {
           onChangeText={setSearchQuery}
         />
       </View>
+
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.categoryScroll}
+        contentContainerStyle={styles.categoryScrollContent}
+      >
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category}
+            style={[
+              styles.categoryButton,
+              selectedCategory === category && styles.categoryButtonActive
+            ]}
+            onPress={() => setSelectedCategory(category)}
+          >
+            <Text style={[
+              styles.categoryButtonText,
+              selectedCategory === category && styles.categoryButtonTextActive
+            ]}>
+              {category}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
       <SectionList
         sections={sections}
@@ -97,6 +129,37 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     fontSize: 16,
   },
+  categoryScroll: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  categoryScrollContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 8,
+  },
+  categoryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#002395",
+    backgroundColor: "#fff",
+    width: 100,
+    alignItems: "center",
+  },
+  categoryButtonActive: {
+    backgroundColor: "#002395",
+  },
+  categoryButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#002395",
+  },
+  categoryButtonTextActive: {
+    color: "#fff",
+  },
   listContent: {
     paddingBottom: 12,
   },
@@ -126,7 +189,17 @@ const styles = StyleSheet.create({
   },
   recipeInfo: {
     flexDirection: "row",
-    gap: 16,
+    gap: 12,
+    alignItems: "center",
+  },
+  categoryBadge: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#666",
+    backgroundColor: "#f0f0f0",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
   },
   infoText: {
     fontSize: 14,

@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   clearButtonText: {
     fontSize: 16,
-    color: "#e74c3c",
+    color: "#ED2939",
     fontWeight: "600",
   },
   listContent: {

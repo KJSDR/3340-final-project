@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite, addToShoppingList } from './store';
@@ -43,7 +44,7 @@ export default function RecipeDetailScreen({ route, navigation }) {
           <Ionicons
             name={isFavorite ? "heart" : "heart-outline"}
             size={24}
-            color={isFavorite ? "#e74c3c" : "#111"}
+            color={isFavorite ? "#ED2939" : "#002395"}
           />
         </TouchableOpacity>
       ),
@@ -52,6 +53,20 @@ export default function RecipeDetailScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
+      {/* Recipe Image */}
+      {recipe.imageUrl && (
+        <View style={styles.imageContainer}>
+          <Image 
+            source={{ uri: recipe.imageUrl }}
+            style={styles.recipeImage}
+            resizeMode="cover"
+          />
+          <View style={styles.categoryOverlay}>
+            <Text style={styles.categoryOverlayText}>{recipe.category}</Text>
+          </View>
+        </View>
+      )}
+
       <View style={styles.content}>
         {/* Recipe Info */}
         <View style={styles.infoSection}>
@@ -117,6 +132,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  imageContainer: {
+    width: "100%",
+    height: 250,
+    position: "relative",
+  },
+  recipeImage: {
+    width: "100%",
+    height: "100%",
+  },
+  categoryOverlay: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    backgroundColor: "#ED2939",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  categoryOverlayText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "700",
+  },
   content: {
     padding: 16,
   },
@@ -129,6 +167,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 16,
     marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: "#002395",
   },
   infoRow: {
     flexDirection: "row",
@@ -142,7 +182,7 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#111",
+    color: "#002395",
   },
   section: {
     marginBottom: 24,
@@ -157,11 +197,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
     marginBottom: 12,
+    color: "#002395",
   },
   addButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#111",
+    backgroundColor: "#002395",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
@@ -187,7 +228,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#111",
+    backgroundColor: "#002395",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
