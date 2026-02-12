@@ -9,7 +9,7 @@ export const recipes = [
       prepTime: "30 min",
       cookTime: "1 hour",
       servings: 4,
-      imageUrl: "PLACEHOLDER_COQ_AU_VIN", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/coq-au-vin.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Chicken thighs", amount: 8, unit: "pieces" },
         { id: "2", name: "Red wine", amount: 2, unit: "cups" },
@@ -34,7 +34,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "45 min",
       servings: 6,
-      imageUrl: "PLACEHOLDER_RATATOUILLE", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/ratatouille.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Eggplant", amount: 1, unit: "piece" },
         { id: "2", name: "Zucchini", amount: 2, unit: "pieces" },
@@ -59,7 +59,7 @@ export const recipes = [
       prepTime: "15 min",
       cookTime: "40 min",
       servings: 4,
-      imageUrl: "PLACEHOLDER_CREME_BRULEE", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/creme-brulee.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Heavy cream", amount: 2, unit: "cups" },
         { id: "2", name: "Egg yolks", amount: 6, unit: "pieces" },
@@ -82,7 +82,7 @@ export const recipes = [
       prepTime: "30 min",
       cookTime: "2.5 hours",
       servings: 6,
-      imageUrl: "PLACEHOLDER_BOEUF_BOURGUIGNON", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/boeuf-bourg.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Beef chuck", amount: 1.5, unit: "kg" },
         { id: "2", name: "Red wine", amount: 3, unit: "cups" },
@@ -111,7 +111,7 @@ export const recipes = [
       prepTime: "20 min",
       cookTime: "3 hours",
       servings: 4,
-      imageUrl: "PLACEHOLDER_CANARD_CONFIT", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/duck-confit.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Duck legs", amount: 4, unit: "pieces" },
         { id: "2", name: "Duck fat", amount: 4, unit: "cups" },
@@ -138,7 +138,7 @@ export const recipes = [
       prepTime: "15 min",
       cookTime: "45 min",
       servings: 4,
-      imageUrl: "PLACEHOLDER_POULET_CREME", // Replace with actual image URL
+      imageUrl: "/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/images/poulet-champs.jpg", // Replace with actual image URL
       ingredients: [
         { id: "1", name: "Chicken breasts", amount: 4, unit: "pieces" },
         { id: "2", name: "Mushrooms", amount: 400, unit: "g" },
