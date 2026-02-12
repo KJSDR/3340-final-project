@@ -86,10 +86,13 @@ export default function AllRecipesScreen({ navigation }) {
             ]}
             onPress={() => setSelectedCategory(category)}
           >
-            <Text style={[
-              styles.categoryButtonText,
-              selectedCategory === category && styles.categoryButtonTextActive
-            ]}>
+            <Text 
+              style={[
+                styles.categoryButtonText,
+                selectedCategory === category && styles.categoryButtonTextActive
+              ]}
+              numberOfLines={1}
+            >
               {category}
             </Text>
           </TouchableOpacity>
@@ -146,16 +149,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#002395",
     backgroundColor: "#fff",
-    width: 100,
+    minWidth: 90,
+    height: 36,
     alignItems: "center",
+    justifyContent: "center",
   },
   categoryButtonActive: {
     backgroundColor: "#002395",
   },
   categoryButtonText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "600",
     color: "#002395",
+    textAlign: "center",
   },
   categoryButtonTextActive: {
     color: "#fff",
