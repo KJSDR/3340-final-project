@@ -39,4 +39,18 @@ A mobile recipe app for organizing my French and Danish recipes with favorites a
 
 ## Screenshots
 
-- need to add
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.02.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.21.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.16.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.11.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.30.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.38.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.43.png
+
+/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.50.png
