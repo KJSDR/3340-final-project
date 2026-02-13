@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,14 +7,28 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
-import { getRecipesByCuisine, recipes, getCategories } from "./recipes";
+import { useSelector, useDispatch } from 'react-redux';
+import { loadRecipes } from './store';
+import { getRecipesByCuisine, getCategories } from "./recipes";
 
 export default function AllRecipesScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const dispatch = useDispatch();
   
+  const { data: recipes, loading, error } = useSelector((state) => state.recipes);
   const categories = ["All", ...getCategories()];
+  
+  useEffect(() => {
+    dispatch(loadRecipes());
+  }, []);
+  
+  const handleRefresh = () => {
+    dispatch(loadRecipes());
+  };
   
   // Filter recipes based on search and category
   const filteredRecipes = recipes.filter((recipe) => {
@@ -59,6 +73,26 @@ export default function AllRecipesScreen({ navigation }) {
       </View>
     );
   };
+
+  if (loading && recipes.length === 0) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color="#002395" />
+        <Text style={styles.loadingText}>Loading recipes...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>⚠️ {error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={handleRefresh}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -106,6 +140,13 @@ export default function AllRecipesScreen({ navigation }) {
         renderSectionHeader={renderSectionHeader}
         contentContainerStyle={styles.listContent}
         stickySectionHeadersEnabled={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={handleRefresh}
+            tintColor="#002395"
+          />
+        }
       />
     </View>
   );
@@ -115,6 +156,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#666",
+  },
+  errorText: {
+    fontSize: 18,
+    color: "#ED2939",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: "#002395",
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
   searchContainer: {
     paddingHorizontal: 16,
