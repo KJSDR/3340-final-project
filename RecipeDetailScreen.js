@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,24 +6,43 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Animated,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite, addToShoppingList } from './store';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 
 export default function RecipeDetailScreen({ route, navigation }) {
   const { recipe } = route.params;
   const dispatch = useDispatch();
+  const scaleAnim = useRef(new Animated.Value(1)).current;
   
   const isFavorite = useSelector((state) => 
     state.favorites.recipeIds.includes(recipe.id)
   );
 
   const handleToggleFavorite = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     dispatch(toggleFavorite(recipe.id));
+    
+    // Animate heart
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 1.3,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   const handleAddToShoppingList = () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     dispatch(addToShoppingList({
       recipeId: recipe.id,
       recipeName: recipe.name,
@@ -41,15 +60,17 @@ export default function RecipeDetailScreen({ route, navigation }) {
           onPress={handleToggleFavorite}
           style={styles.headerButton}
         >
-          <Ionicons
-            name={isFavorite ? "heart" : "heart-outline"}
-            size={24}
-            color={isFavorite ? "#ED2939" : "#002395"}
-          />
+          <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+            <Ionicons
+              name={isFavorite ? "heart" : "heart-outline"}
+              size={24}
+              color={isFavorite ? "#ED2939" : "#002395"}
+            />
+          </Animated.View>
         </TouchableOpacity>
       ),
     });
-  }, [navigation, isFavorite]);
+  }, [navigation, isFavorite, scaleAnim]);
 
   return (
     <ScrollView style={styles.container}>
