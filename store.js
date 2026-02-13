@@ -1,4 +1,52 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { recipes as recipesData } from './recipes';
+
+// Async thunk to "load" recipes (simulates API call)
+export const loadRecipes = createAsyncThunk(
+  'recipes/loadRecipes',
+  async (_, { rejectWithValue }) => {
+    try {
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate random error (10% chance)
+      if (Math.random() < 0.1) {
+        throw new Error('Failed to load recipes');
+      }
+      
+      return recipesData;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Recipes slice
+const recipesSlice = createSlice({
+  name: 'recipes',
+  initialState: {
+    data: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadRecipes.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadRecipes.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(loadRecipes.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
 
 // Favorites slice
 const favoritesSlice = createSlice({
@@ -14,6 +62,9 @@ const favoritesSlice = createSlice({
       } else {
         state.recipeIds.push(recipeId);
       }
+    },
+    loadFavorites: (state, action) => {
+      state.recipeIds = action.payload;
     },
   },
 });
@@ -51,17 +102,49 @@ const shoppingListSlice = createSlice({
     clearShoppingList: (state) => {
       state.items = [];
     },
+    loadShoppingList: (state, action) => {
+      state.items = action.payload;
+    },
   },
 });
 
 // Export actions
-export const { toggleFavorite } = favoritesSlice.actions;
-export const { addToShoppingList, removeFromShoppingList, clearShoppingList } = shoppingListSlice.actions;
+export const { toggleFavorite, loadFavorites } = favoritesSlice.actions;
+export const { addToShoppingList, removeFromShoppingList, clearShoppingList, loadShoppingList } = shoppingListSlice.actions;
 
 // Configure store
 export const store = configureStore({
   reducer: {
+    recipes: recipesSlice.reducer,
     favorites: favoritesSlice.reducer,
     shoppingList: shoppingListSlice.reducer,
   },
 });
+
+// Subscribe to store changes and persist to AsyncStorage
+store.subscribe(async () => {
+  const state = store.getState();
+  try {
+    await AsyncStorage.setItem('favorites', JSON.stringify(state.favorites.recipeIds));
+    await AsyncStorage.setItem('shoppingList', JSON.stringify(state.shoppingList.items));
+  } catch (error) {
+    console.error('Error saving to AsyncStorage:', error);
+  }
+});
+
+// Load persisted state on app start
+export const loadPersistedState = async () => {
+  try {
+    const favorites = await AsyncStorage.getItem('favorites');
+    const shoppingList = await AsyncStorage.getItem('shoppingList');
+    
+    if (favorites) {
+      store.dispatch(loadFavorites(JSON.parse(favorites)));
+    }
+    if (shoppingList) {
+      store.dispatch(loadShoppingList(JSON.parse(shoppingList)));
+    }
+  } catch (error) {
+    console.error('Error loading from AsyncStorage:', error);
+  }
+};
