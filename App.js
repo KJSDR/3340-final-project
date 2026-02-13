@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store, loadPersistedState } from './store';
 import AllRecipesStack from './AllRecipesStack';
 import FavoritesStack from './FavoritesStack';
 import ShoppingListStack from './ShoppingListStack';
@@ -42,6 +42,10 @@ function TabNavigator() {
 }
 
 export default function App() {
+  React.useEffect(() => {
+    loadPersistedState();
+  }, []);
+
   return (
     <Provider store={store}>
       <NavigationContainer>
