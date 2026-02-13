@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector } from 'react-redux';
-import { recipes } from "./recipes";
 
 export default function FavoritesScreen({ navigation }) {
   const favoriteIds = useSelector((state) => state.favorites.recipeIds);
+  const recipes = useSelector((state) => state.recipes.data);
   
   const favoriteRecipes = recipes.filter((recipe) =>
     favoriteIds.includes(recipe.id)
