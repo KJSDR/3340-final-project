@@ -39,18 +39,13 @@ A mobile recipe app for organizing my French and Danish recipes with favorites a
 
 ## Screenshots
 
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.02.png
+## Screenshots
 
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.21.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.16.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.11.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.30.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.38.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.43.png
-
-/Users/killiand/Desktop/Ecole/ACSQ7/ACS3340/final-project/screenshots/Capture d’écran 2026-02-12 à 23.24.50.png
+![All Recipes](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.02.png)
+![Recipe Detail](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.21.png)
+![Categories](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.16.png)
+![Search](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.11.png)
+![Favorites](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.30.png)
+![Shopping List](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.38.png)
+![Recipe Ingredients](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.43.png)
+![Recipe Instructions](screenshots/Capture%20d'écran%202026-02-12%20à%2023.24.50.png)
