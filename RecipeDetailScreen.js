@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,21 +12,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite, addToShoppingList } from './store';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { theme } from "./theme";
 
 export default function RecipeDetailScreen({ route, navigation }) {
   const { recipe } = route.params;
   const dispatch = useDispatch();
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  
-  const isFavorite = useSelector((state) => 
+
+  const isFavorite = useSelector((state) =>
     state.favorites.recipeIds.includes(recipe.id)
   );
 
   const handleToggleFavorite = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     dispatch(toggleFavorite(recipe.id));
-    
-    // Animate heart
+
     Animated.sequence([
       Animated.timing(scaleAnim, {
         toValue: 1.3,
@@ -48,8 +48,6 @@ export default function RecipeDetailScreen({ route, navigation }) {
       recipeName: recipe.name,
       ingredients: recipe.ingredients,
     }));
-    
-    // Show confirmation
     alert(`Added ingredients to shopping list!`);
   };
 
@@ -64,7 +62,7 @@ export default function RecipeDetailScreen({ route, navigation }) {
             <Ionicons
               name={isFavorite ? "heart" : "heart-outline"}
               size={24}
-              color={isFavorite ? "#ED2939" : "#002395"}
+              color={isFavorite ? theme.colors.danger : theme.colors.primary}
             />
           </Animated.View>
         </TouchableOpacity>
@@ -74,10 +72,9 @@ export default function RecipeDetailScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Recipe Image */}
       {recipe.imageUrl && (
         <View style={styles.imageContainer}>
-          <Image 
+          <Image
             source={{ uri: recipe.imageUrl }}
             style={styles.recipeImage}
             resizeMode="cover"
@@ -89,27 +86,20 @@ export default function RecipeDetailScreen({ route, navigation }) {
       )}
 
       <View style={styles.content}>
-        {/* Recipe Info */}
         <View style={styles.infoSection}>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Cuisine:</Text>
-            <Text style={styles.infoValue}>{recipe.cuisine}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Prep Time:</Text>
-            <Text style={styles.infoValue}>{recipe.prepTime}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Cook Time:</Text>
-            <Text style={styles.infoValue}>{recipe.cookTime}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Servings:</Text>
-            <Text style={styles.infoValue}>{recipe.servings}</Text>
-          </View>
+          {[
+            ['Cuisine', recipe.cuisine],
+            ['Prep Time', recipe.prepTime],
+            ['Cook Time', recipe.cookTime],
+            ['Servings', recipe.servings],
+          ].map(([label, value]) => (
+            <View key={label} style={styles.infoRow}>
+              <Text style={styles.infoLabel}>{label}:</Text>
+              <Text style={styles.infoValue}>{value}</Text>
+            </View>
+          ))}
         </View>
 
-        {/* Ingredients */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Ingredients</Text>
@@ -117,11 +107,11 @@ export default function RecipeDetailScreen({ route, navigation }) {
               onPress={handleAddToShoppingList}
               style={styles.addButton}
             >
-              <Ionicons name="cart-outline" size={20} color="#fff" />
+              <Ionicons name="cart-outline" size={20} color={theme.colors.background} />
               <Text style={styles.addButtonText}>Add to List</Text>
             </TouchableOpacity>
           </View>
-          
+
           {recipe.ingredients.map((ingredient) => (
             <View key={ingredient.id} style={styles.ingredientRow}>
               <Text style={styles.ingredientText}>
@@ -131,7 +121,6 @@ export default function RecipeDetailScreen({ route, navigation }) {
           ))}
         </View>
 
-        {/* Instructions */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Instructions</Text>
           {recipe.instructions.map((step, index) => (
@@ -151,7 +140,7 @@ export default function RecipeDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   imageContainer: {
     width: "100%",
@@ -164,105 +153,105 @@ const styles = StyleSheet.create({
   },
   categoryOverlay: {
     position: "absolute",
-    top: 16,
-    right: 16,
-    backgroundColor: "#ED2939",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
+    top: theme.spacing.md,
+    right: theme.spacing.md,
+    backgroundColor: theme.colors.danger,
+    paddingHorizontal: theme.spacing.sm + 4,
+    paddingVertical: theme.spacing.sm - 2,
+    borderRadius: theme.radius.lg,
   },
   categoryOverlayText: {
-    color: "#fff",
-    fontSize: 14,
+    color: theme.colors.background,
+    fontSize: theme.typography.label,
     fontWeight: "700",
   },
   content: {
-    padding: 16,
+    padding: theme.spacing.md,
   },
   headerButton: {
-    marginRight: 16,
-    padding: 8,
+    marginRight: theme.spacing.md,
+    padding: theme.spacing.sm,
   },
   infoSection: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 20,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.radius.md,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.lg - 4,
     borderLeftWidth: 4,
-    borderLeftColor: "#002395",
+    borderLeftColor: theme.colors.primary,
   },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 6,
+    paddingVertical: theme.spacing.sm - 2,
   },
   infoLabel: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: theme.typography.body,
+    color: theme.colors.textSecondary,
   },
   infoValue: {
-    fontSize: 16,
+    fontSize: theme.typography.body,
     fontWeight: "600",
-    color: "#002395",
+    color: theme.colors.primary,
   },
   section: {
-    marginBottom: 24,
+    marginBottom: theme.spacing.lg,
   },
   sectionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: theme.spacing.sm + 4,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: theme.typography.heading,
     fontWeight: "700",
-    marginBottom: 12,
-    color: "#002395",
+    marginBottom: theme.spacing.sm + 4,
+    color: theme.colors.primary,
   },
   addButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#002395",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    gap: 6,
+    backgroundColor: theme.colors.primary,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.sm + 4,
+    borderRadius: theme.radius.sm,
+    gap: theme.spacing.sm - 2,
   },
   addButtonText: {
-    color: "#fff",
-    fontSize: 14,
+    color: theme.colors.background,
+    fontSize: theme.typography.label,
     fontWeight: "600",
   },
   ingredientRow: {
-    paddingVertical: 6,
+    paddingVertical: theme.spacing.sm - 2,
   },
   ingredientText: {
-    fontSize: 16,
+    fontSize: theme.typography.body,
     lineHeight: 24,
   },
   stepRow: {
     flexDirection: "row",
-    marginBottom: 16,
+    marginBottom: theme.spacing.md,
   },
   stepNumber: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#002395",
+    backgroundColor: theme.colors.primary,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 12,
+    marginRight: theme.spacing.sm + 4,
     marginTop: 2,
   },
   stepNumberText: {
-    color: "#fff",
-    fontSize: 16,
+    color: theme.colors.background,
+    fontSize: theme.typography.body,
     fontWeight: "700",
   },
   stepText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: theme.typography.body,
     lineHeight: 24,
   },
 });

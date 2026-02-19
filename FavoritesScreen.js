@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector } from 'react-redux';
+import { theme } from "./theme";
 
 export default function FavoritesScreen({ navigation }) {
   const favoriteIds = useSelector((state) => state.favorites.recipeIds);
   const recipes = useSelector((state) => state.recipes.data);
-  
+
   const favoriteRecipes = recipes.filter((recipe) =>
     favoriteIds.includes(recipe.id)
   );
@@ -56,53 +57,53 @@ export default function FavoritesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: theme.spacing.md,
   },
   emptyText: {
-    fontSize: 20,
+    fontSize: theme.typography.heading,
     fontWeight: "700",
-    marginBottom: 8,
-    color: "#333",
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.textPrimary,
   },
   emptySubtext: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: theme.typography.body,
+    color: theme.colors.textSecondary,
     textAlign: "center",
   },
   listContent: {
-    padding: 12,
+    padding: theme.spacing.sm + 4,
   },
   recipeCard: {
-    padding: 16,
+    padding: theme.spacing.md,
     borderWidth: 1,
-    borderColor: "#eee",
-    borderRadius: 14,
-    backgroundColor: "#fff",
-    marginBottom: 12,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radius.md,
+    backgroundColor: theme.colors.background,
+    marginBottom: theme.spacing.sm + 4,
   },
   recipeName: {
-    fontSize: 18,
+    fontSize: theme.typography.title,
     fontWeight: "600",
-    marginBottom: 6,
+    marginBottom: theme.spacing.sm - 2,
   },
   recipeInfo: {
     flexDirection: "row",
-    gap: 12,
+    gap: theme.spacing.sm + 4,
     flexWrap: "wrap",
   },
   cuisineText: {
-    fontSize: 14,
-    color: "#111",
+    fontSize: theme.typography.label,
+    color: theme.colors.textPrimary,
     fontWeight: "600",
   },
   infoText: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: theme.typography.label,
+    color: theme.colors.textSecondary,
   },
 });

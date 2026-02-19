@@ -13,31 +13,30 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { loadRecipes } from './store';
 import { getRecipesByCuisine, getCategories } from "./recipes";
+import { theme } from "./theme";
 
 export default function AllRecipesScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const dispatch = useDispatch();
-  
+
   const { data: recipes, loading, error } = useSelector((state) => state.recipes);
   const categories = ["All", ...getCategories()];
-  
+
   useEffect(() => {
     dispatch(loadRecipes());
   }, []);
-  
+
   const handleRefresh = () => {
     dispatch(loadRecipes());
   };
-  
-  // Filter recipes based on search and category
+
   const filteredRecipes = recipes.filter((recipe) => {
     const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "All" || recipe.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  // Group filtered recipes by cuisine
   const sections = getRecipesByCuisine().map((section) => ({
     ...section,
     data: section.data.filter((recipe) =>
@@ -60,16 +59,10 @@ export default function AllRecipesScreen({ navigation }) {
   );
 
   const renderSectionHeader = ({ section: { title } }) => {
-    const flags = {
-      'French': '🇫🇷',
-      'Danish': '🇩🇰',
-    };
-
+    const flags = { 'French': '🇫🇷', 'Danish': '🇩🇰' };
     return (
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>
-          {title} {flags[title] || ''}
-        </Text>
+        <Text style={styles.sectionTitle}>{title} {flags[title] || ''}</Text>
       </View>
     );
   };
@@ -77,7 +70,7 @@ export default function AllRecipesScreen({ navigation }) {
   if (loading && recipes.length === 0) {
     return (
       <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#002395" />
+        <ActivityIndicator size="large" color={theme.colors.primary} />
         <Text style={styles.loadingText}>Loading recipes...</Text>
       </View>
     );
@@ -105,8 +98,8 @@ export default function AllRecipesScreen({ navigation }) {
         />
       </View>
 
-      <ScrollView 
-        horizontal 
+      <ScrollView
+        horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.categoryScroll}
         contentContainerStyle={styles.categoryScrollContent}
@@ -116,14 +109,14 @@ export default function AllRecipesScreen({ navigation }) {
             key={category}
             style={[
               styles.categoryButton,
-              selectedCategory === category && styles.categoryButtonActive
+              selectedCategory === category && styles.categoryButtonActive,
             ]}
             onPress={() => setSelectedCategory(category)}
           >
-            <Text 
+            <Text
               style={[
                 styles.categoryButtonText,
-                selectedCategory === category && styles.categoryButtonTextActive
+                selectedCategory === category && styles.categoryButtonTextActive,
               ]}
               numberOfLines={1}
             >
@@ -144,7 +137,7 @@ export default function AllRecipesScreen({ navigation }) {
           <RefreshControl
             refreshing={loading}
             onRefresh={handleRefresh}
-            tintColor="#002395"
+            tintColor={theme.colors.primary}
           />
         }
       />
@@ -155,130 +148,130 @@ export default function AllRecipesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#fff",
+    padding: theme.spacing.md,
+    backgroundColor: theme.colors.background,
   },
   loadingText: {
-    marginTop: 12,
-    fontSize: 16,
-    color: "#666",
+    marginTop: theme.spacing.sm + 4,
+    fontSize: theme.typography.body,
+    color: theme.colors.textSecondary,
   },
   errorText: {
-    fontSize: 18,
-    color: "#ED2939",
+    fontSize: theme.typography.heading,
+    color: theme.colors.danger,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: theme.spacing.lg - 4,
   },
   retryButton: {
-    backgroundColor: "#002395",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.md + 8,
+    paddingVertical: theme.spacing.sm + 4,
+    borderRadius: theme.radius.sm,
   },
   retryButtonText: {
-    color: "#fff",
-    fontSize: 16,
+    color: theme.colors.background,
+    fontSize: theme.typography.body,
     fontWeight: "600",
   },
   searchContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#f9f9f9",
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm + 4,
+    backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: theme.colors.border,
   },
   searchInput: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    backgroundColor: theme.colors.background,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm + 4,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#ddd",
-    fontSize: 16,
+    borderColor: theme.colors.border,
+    fontSize: theme.typography.body,
   },
   categoryScroll: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: theme.colors.border,
   },
   categoryScrollContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 8,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm + 4,
+    gap: theme.spacing.sm,
   },
   categoryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: theme.radius.lg,
     borderWidth: 1,
-    borderColor: "#002395",
-    backgroundColor: "#fff",
+    borderColor: theme.colors.primary,
+    backgroundColor: theme.colors.background,
     minWidth: 90,
     height: 36,
     alignItems: "center",
     justifyContent: "center",
   },
   categoryButtonActive: {
-    backgroundColor: "#002395",
+    backgroundColor: theme.colors.primary,
   },
   categoryButtonText: {
-    fontSize: 13,
+    fontSize: theme.typography.small + 1,
     fontWeight: "600",
-    color: "#002395",
+    color: theme.colors.primary,
     textAlign: "center",
   },
   categoryButtonTextActive: {
-    color: "#fff",
+    color: theme.colors.background,
   },
   listContent: {
-    paddingBottom: 12,
+    paddingBottom: theme.spacing.sm + 4,
   },
   sectionHeader: {
-    backgroundColor: "#f9f9f9",
-    paddingHorizontal: 16,
+    backgroundColor: theme.colors.surface,
+    paddingHorizontal: theme.spacing.md,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: theme.colors.border,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: theme.typography.heading,
     fontWeight: "700",
-    color: "#333",
+    color: theme.colors.textPrimary,
   },
   recipeCard: {
-    paddingHorizontal: 16,
+    paddingHorizontal: theme.spacing.md,
     paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: "#f2f2f2",
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   recipeName: {
-    fontSize: 18,
+    fontSize: theme.typography.title,
     fontWeight: "600",
-    marginBottom: 6,
+    marginBottom: theme.spacing.sm - 2,
   },
   recipeInfo: {
     flexDirection: "row",
-    gap: 12,
+    gap: theme.spacing.sm + 4,
     alignItems: "center",
   },
   categoryBadge: {
-    fontSize: 12,
+    fontSize: theme.typography.small,
     fontWeight: "600",
-    color: "#666",
+    color: theme.colors.textSecondary,
     backgroundColor: "#f0f0f0",
-    paddingHorizontal: 8,
+    paddingHorizontal: theme.spacing.sm,
     paddingVertical: 3,
-    borderRadius: 4,
+    borderRadius: theme.radius.sm - 4,
   },
   infoText: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: theme.typography.label,
+    color: theme.colors.textSecondary,
   },
 });

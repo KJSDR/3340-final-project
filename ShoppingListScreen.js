@@ -9,6 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromShoppingList, clearShoppingList } from './store';
 import { Ionicons } from '@expo/vector-icons';
+import { theme } from "./theme";
 
 export default function ShoppingListScreen() {
   const dispatch = useDispatch();
@@ -27,14 +28,14 @@ export default function ShoppingListScreen() {
       <View style={styles.itemInfo}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemDetails}>
-          {item.amount} {item.unit} - {item.recipeName}
+          {item.amount} {item.unit} — {item.recipeName}
         </Text>
       </View>
       <TouchableOpacity
         onPress={() => handleRemoveItem(item.id)}
         style={styles.removeButton}
       >
-        <Ionicons name="close-circle" size={24} color="#999" />
+        <Ionicons name="close-circle" size={24} color={theme.colors.textSecondary} />
       </TouchableOpacity>
     </View>
   );
@@ -74,76 +75,76 @@ export default function ShoppingListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: theme.spacing.md,
   },
   emptyText: {
-    fontSize: 20,
+    fontSize: theme.typography.heading,
     fontWeight: "700",
-    marginBottom: 8,
-    color: "#333",
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.textPrimary,
   },
   emptySubtext: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: theme.typography.body,
+    color: theme.colors.textSecondary,
     textAlign: "center",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#f9f9f9",
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm + 4,
+    backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: theme.colors.border,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: theme.typography.body,
     fontWeight: "600",
-    color: "#333",
+    color: theme.colors.textPrimary,
   },
   clearButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: theme.spacing.sm - 2,
+    paddingHorizontal: theme.spacing.sm + 4,
   },
   clearButtonText: {
-    fontSize: 16,
-    color: "#ED2939",
+    fontSize: theme.typography.body,
+    color: theme.colors.danger,
     fontWeight: "600",
   },
   listContent: {
-    padding: 12,
+    padding: theme.spacing.sm + 4,
   },
   itemCard: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    padding: theme.spacing.md,
     borderWidth: 1,
-    borderColor: "#eee",
-    borderRadius: 14,
-    backgroundColor: "#fff",
-    marginBottom: 12,
+    borderColor: theme.colors.border,
+    borderRadius: theme.radius.md,
+    backgroundColor: theme.colors.background,
+    marginBottom: theme.spacing.sm + 4,
   },
   itemInfo: {
     flex: 1,
   },
   itemName: {
-    fontSize: 16,
+    fontSize: theme.typography.body,
     fontWeight: "600",
-    marginBottom: 4,
+    marginBottom: theme.spacing.sm - 4,
   },
   itemDetails: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: theme.typography.label,
+    color: theme.colors.textSecondary,
   },
   removeButton: {
-    padding: 8,
+    padding: theme.spacing.sm,
   },
 });
