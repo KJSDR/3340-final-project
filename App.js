@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -42,9 +43,19 @@ function TabNavigator() {
 }
 
 export default function App() {
+  const [hydrated, setHydrated] = React.useState(false);
+
   React.useEffect(() => {
-    loadPersistedState();
+    loadPersistedState().finally(() => setHydrated(true));
   }, []);
+
+  if (!hydrated) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#002395" />
+      </View>
+    );
+  }
 
   return (
     <Provider store={store}>

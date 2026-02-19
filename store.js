@@ -52,7 +52,7 @@ const recipesSlice = createSlice({
 const favoritesSlice = createSlice({
   name: 'favorites',
   initialState: {
-    recipeIds: [], // Array of recipe IDs that are favorited
+    recipeIds: [],
   },
   reducers: {
     toggleFavorite: (state, action) => {
@@ -73,7 +73,7 @@ const favoritesSlice = createSlice({
 const shoppingListSlice = createSlice({
   name: 'shoppingList',
   initialState: {
-    items: [], // Array of { id, name, amount, unit, recipeId, recipeName }
+    items: [],
   },
   reducers: {
     addToShoppingList: (state, action) => {
@@ -121,28 +121,42 @@ export const store = configureStore({
   },
 });
 
+// Debounce helper — prevents thrashing AsyncStorage on rapid dispatches
+let saveTimer = null;
+const debouncedSave = (fn, delay = 300) => {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(fn, delay);
+};
+
 // Subscribe to store changes and persist to AsyncStorage
-store.subscribe(async () => {
+// Only saves favorites and shoppingList (recipes are static data)
+store.subscribe(() => {
   const state = store.getState();
-  try {
-    await AsyncStorage.setItem('favorites', JSON.stringify(state.favorites.recipeIds));
-    await AsyncStorage.setItem('shoppingList', JSON.stringify(state.shoppingList.items));
-  } catch (error) {
-    console.error('Error saving to AsyncStorage:', error);
-  }
+  debouncedSave(async () => {
+    try {
+      await AsyncStorage.multiSet([
+        ['favorites', JSON.stringify(state.favorites.recipeIds)],
+        ['shoppingList', JSON.stringify(state.shoppingList.items)],
+      ]);
+    } catch (error) {
+      console.error('Error saving to AsyncStorage:', error);
+    }
+  });
 });
 
 // Load persisted state on app start
+// Returns a Promise so App.js can await it before rendering
 export const loadPersistedState = async () => {
   try {
-    const favorites = await AsyncStorage.getItem('favorites');
-    const shoppingList = await AsyncStorage.getItem('shoppingList');
-    
-    if (favorites) {
-      store.dispatch(loadFavorites(JSON.parse(favorites)));
+    const results = await AsyncStorage.multiGet(['favorites', 'shoppingList']);
+    const favoritesRaw = results[0][1];
+    const shoppingListRaw = results[1][1];
+
+    if (favoritesRaw) {
+      store.dispatch(loadFavorites(JSON.parse(favoritesRaw)));
     }
-    if (shoppingList) {
-      store.dispatch(loadShoppingList(JSON.parse(shoppingList)));
+    if (shoppingListRaw) {
+      store.dispatch(loadShoppingList(JSON.parse(shoppingListRaw)));
     }
   } catch (error) {
     console.error('Error loading from AsyncStorage:', error);
