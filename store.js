@@ -132,16 +132,10 @@ const debouncedSave = (fn, delay = 300) => {
 // Only saves favorites and shoppingList (recipes are static data)
 store.subscribe(() => {
   const state = store.getState();
-  debouncedSave(async () => {
-    try {
-      await AsyncStorage.multiSet([
-        ['favorites', JSON.stringify(state.favorites.recipeIds)],
-        ['shoppingList', JSON.stringify(state.shoppingList.items)],
-      ]);
-    } catch (error) {
-      console.error('Error saving to AsyncStorage:', error);
-    }
-  });
+  AsyncStorage.multiSet([
+    ['favorites', JSON.stringify(state.favorites.recipeIds)],
+    ['shoppingList', JSON.stringify(state.shoppingList.items)],
+  ]).catch(error => console.error('Error saving to AsyncStorage:', error));
 });
 
 // Load persisted state on app start
