@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { store, loadPersistedState } from './store/store';
+import { store, loadPersistedState } from './store/index';
 import AllRecipesStack from './navigation/AllRecipesStack';
 import FavoritesStack from './navigation/FavoritesStack';
 import ShoppingListStack from './navigation/ShoppingListStack';

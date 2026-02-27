@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromShoppingList, clearShoppingList } from './store';
+import { removeFromShoppingList, clearShoppingList } from '../store';
 import { Ionicons } from '@expo/vector-icons';
-import { theme } from "./theme";
+import { theme } from "../theme";
 
 export default function ShoppingListScreen() {
   const dispatch = useDispatch();

@@ -9,10 +9,10 @@ import {
   Animated,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleFavorite, addToShoppingList } from './store';
+import { toggleFavorite, addToShoppingList } from '../store';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { theme } from "./theme";
+import { theme } from "../theme";
 
 export default function RecipeDetailScreen({ route, navigation }) {
   const { recipe } = route.params;

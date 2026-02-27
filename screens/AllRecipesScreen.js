@@ -11,9 +11,9 @@ import {
   RefreshControl,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { loadRecipes } from './store';
-import { getRecipesByCuisine, getCategories } from "./recipes";
-import { theme } from "./theme";
+import { loadRecipes } from '../store';
+import { getRecipesByCuisine, getCategories } from '../data/recipes';
+import { theme } from "../theme";
 
 export default function AllRecipesScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");

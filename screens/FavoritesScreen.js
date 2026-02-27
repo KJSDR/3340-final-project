@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector } from 'react-redux';
-import { theme } from "./theme";
+import { theme } from "../theme";
 
 export default function FavoritesScreen({ navigation }) {
   const favoriteIds = useSelector((state) => state.favorites.recipeIds);

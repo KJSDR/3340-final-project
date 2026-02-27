@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import AllRecipesScreen from './AllRecipesScreen';
-import RecipeDetailScreen from '../RecipeDetailScreen';
-import { theme } from './theme';
+import AllRecipesScreen from '../screens/AllRecipesScreen';
+import RecipeDetailScreen from '../screens/RecipeDetailScreen';
+import { theme } from '../theme';
 
 const Stack = createStackNavigator();
 
