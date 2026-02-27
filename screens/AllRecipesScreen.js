@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,11 +9,81 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  Animated,
+  PanResponder,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
-import { loadRecipes } from '../store';
+import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
+import { loadRecipes, toggleFavorite } from '../store';
 import { getRecipesByCuisine, getCategories } from '../data/recipes';
 import { theme } from "../theme";
+
+const SWIPE_THRESHOLD = 80;
+
+function SwipeableRecipeCard({ item, isFavorite, onPress, onToggleFavorite }) {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const actionOpacity = useRef(new Animated.Value(0)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dx) > 8 && Math.abs(gestureState.dy) < 20,
+      onPanResponderMove: (_, gestureState) => {
+        if (gestureState.dx < 0) {
+          translateX.setValue(gestureState.dx);
+          actionOpacity.setValue(Math.min(1, Math.abs(gestureState.dx) / SWIPE_THRESHOLD));
+        }
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dx < -SWIPE_THRESHOLD) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          onToggleFavorite();
+        }
+        Animated.spring(translateX, { toValue: 0, useNativeDriver: true, friction: 5 }).start();
+        Animated.timing(actionOpacity, { toValue: 0, duration: 200, useNativeDriver: true }).start();
+      },
+    })
+  ).current;
+
+  return (
+    <View style={styles.swipeWrapper}>
+      <Animated.View
+        style={[
+          styles.favoriteBackground,
+          { opacity: actionOpacity, backgroundColor: isFavorite ? '#fff0f0' : '#f0f4ff' },
+        ]}
+      >
+        <Ionicons
+          name={isFavorite ? 'heart-dislike' : 'heart'}
+          size={22}
+          color={isFavorite ? theme.colors.danger : theme.colors.primary}
+        />
+        <Text style={[styles.favoriteActionText, { color: isFavorite ? theme.colors.danger : theme.colors.primary }]}>
+          {isFavorite ? 'Unfavorite' : 'Favorite'}
+        </Text>
+      </Animated.View>
+
+      <Animated.View style={{ transform: [{ translateX }] }} {...panResponder.panHandlers}>
+        <TouchableOpacity style={styles.recipeCard} onPress={onPress} activeOpacity={0.8}>
+          <View style={styles.recipeCardInner}>
+            <View style={styles.recipeCardContent}>
+              <Text style={styles.recipeName}>{item.name}</Text>
+              <View style={styles.recipeInfo}>
+                <Text style={styles.categoryBadge}>{item.category}</Text>
+                <Text style={styles.infoText}>⏱ {item.prepTime}</Text>
+                <Text style={styles.infoText}>🍽 {item.servings} servings</Text>
+              </View>
+            </View>
+            {isFavorite && (
+              <Ionicons name="heart" size={16} color={theme.colors.danger} />
+            )}
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function AllRecipesScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,6 +91,7 @@ export default function AllRecipesScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const { data: recipes, loading, error } = useSelector((state) => state.recipes);
+  const favoriteIds = useSelector((state) => state.favorites.recipeIds);
   const categories = ["All", ...getCategories()];
 
   useEffect(() => {
@@ -45,17 +116,12 @@ export default function AllRecipesScreen({ navigation }) {
   })).filter((section) => section.data.length > 0);
 
   const renderRecipeItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.recipeCard}
+    <SwipeableRecipeCard
+      item={item}
+      isFavorite={favoriteIds.includes(item.id)}
       onPress={() => navigation.navigate('RecipeDetail', { recipe: item })}
-    >
-      <Text style={styles.recipeName}>{item.name}</Text>
-      <View style={styles.recipeInfo}>
-        <Text style={styles.categoryBadge}>{item.category}</Text>
-        <Text style={styles.infoText}>⏱ {item.prepTime}</Text>
-        <Text style={styles.infoText}>🍽 {item.servings} servings</Text>
-      </View>
-    </TouchableOpacity>
+      onToggleFavorite={() => dispatch(toggleFavorite(item.id))}
+    />
   );
 
   const renderSectionHeader = ({ section: { title } }) => {
@@ -125,6 +191,8 @@ export default function AllRecipesScreen({ navigation }) {
           </TouchableOpacity>
         ))}
       </ScrollView>
+
+      <Text style={styles.hint}>← Swipe left on a recipe to favorite it</Text>
 
       <SectionList
         sections={sections}
@@ -229,6 +297,15 @@ const styles = StyleSheet.create({
   categoryButtonTextActive: {
     color: theme.colors.background,
   },
+  hint: {
+    fontSize: theme.typography.small,
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
+    paddingVertical: 6,
+    backgroundColor: theme.colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
   listContent: {
     paddingBottom: theme.spacing.sm + 4,
   },
@@ -244,12 +321,39 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: theme.colors.textPrimary,
   },
+  swipeWrapper: {
+    overflow: 'hidden',
+    backgroundColor: theme.colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f2f2f2",
+  },
+  favoriteBackground: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 100,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  favoriteActionText: {
+    fontSize: theme.typography.small,
+    fontWeight: '700',
+  },
   recipeCard: {
     paddingHorizontal: theme.spacing.md,
     paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
     backgroundColor: theme.colors.background,
+  },
+  recipeCardInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  recipeCardContent: {
+    flex: 1,
   },
   recipeName: {
     fontSize: theme.typography.title,

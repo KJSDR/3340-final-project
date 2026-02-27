@@ -1,44 +1,75 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
   TouchableOpacity,
+  Animated,
+  PanResponder,
 } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromShoppingList, clearShoppingList } from '../store';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { theme } from "../theme";
+
+const SWIPE_THRESHOLD = 80;
+
+function SwipeableItem({ item, onRemove }) {
+  const translateX = useRef(new Animated.Value(0)).current;
+  const actionOpacity = useRef(new Animated.Value(0)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dx) > 8 && Math.abs(gestureState.dy) < 20,
+      onPanResponderMove: (_, gestureState) => {
+        if (gestureState.dx < 0) {
+          translateX.setValue(gestureState.dx);
+          actionOpacity.setValue(Math.min(1, Math.abs(gestureState.dx) / SWIPE_THRESHOLD));
+        }
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dx < -SWIPE_THRESHOLD) {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          Animated.timing(translateX, {
+            toValue: -500,
+            duration: 200,
+            useNativeDriver: true,
+          }).start(() => onRemove());
+        } else {
+          Animated.spring(translateX, { toValue: 0, useNativeDriver: true, friction: 5 }).start();
+          Animated.timing(actionOpacity, { toValue: 0, duration: 200, useNativeDriver: true }).start();
+        }
+      },
+    })
+  ).current;
+
+  return (
+    <View style={styles.swipeWrapper}>
+      <Animated.View style={[styles.deleteBackground, { opacity: actionOpacity }]}>
+        <Ionicons name="trash" size={22} color="#fff" />
+        <Text style={styles.deleteText}>Delete</Text>
+      </Animated.View>
+
+      <Animated.View style={{ transform: [{ translateX }] }} {...panResponder.panHandlers}>
+        <View style={styles.itemCard}>
+          <View style={styles.itemInfo}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemDetails}>
+              {item.amount} {item.unit} — {item.recipeName}
+            </Text>
+          </View>
+        </View>
+      </Animated.View>
+    </View>
+  );
+}
 
 export default function ShoppingListScreen() {
   const dispatch = useDispatch();
   const shoppingItems = useSelector((state) => state.shoppingList.items);
-
-  const handleRemoveItem = (itemId) => {
-    dispatch(removeFromShoppingList(itemId));
-  };
-
-  const handleClearAll = () => {
-    dispatch(clearShoppingList());
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={styles.itemCard}>
-      <View style={styles.itemInfo}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemDetails}>
-          {item.amount} {item.unit} — {item.recipeName}
-        </Text>
-      </View>
-      <TouchableOpacity
-        onPress={() => handleRemoveItem(item.id)}
-        style={styles.removeButton}
-      >
-        <Ionicons name="close-circle" size={24} color={theme.colors.textSecondary} />
-      </TouchableOpacity>
-    </View>
-  );
 
   if (shoppingItems.length === 0) {
     return (
@@ -57,15 +88,22 @@ export default function ShoppingListScreen() {
         <Text style={styles.headerText}>
           {shoppingItems.length} {shoppingItems.length === 1 ? 'item' : 'items'}
         </Text>
-        <TouchableOpacity onPress={handleClearAll} style={styles.clearButton}>
+        <TouchableOpacity onPress={() => dispatch(clearShoppingList())} style={styles.clearButton}>
           <Text style={styles.clearButtonText}>Clear All</Text>
         </TouchableOpacity>
       </View>
 
+      <Text style={styles.hint}>← Swipe left to delete</Text>
+
       <FlatList
         data={shoppingItems}
         keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <SwipeableItem
+            item={item}
+            onRemove={() => dispatch(removeFromShoppingList(item.id))}
+          />
+        )}
         contentContainerStyle={styles.listContent}
       />
     </View>
@@ -118,8 +156,39 @@ const styles = StyleSheet.create({
     color: theme.colors.danger,
     fontWeight: "600",
   },
+  hint: {
+    fontSize: theme.typography.small,
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
+    paddingVertical: 6,
+    backgroundColor: theme.colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+  },
   listContent: {
     padding: theme.spacing.sm + 4,
+    gap: theme.spacing.sm + 4,
+  },
+  swipeWrapper: {
+    borderRadius: theme.radius.md,
+    overflow: 'hidden',
+  },
+  deleteBackground: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 100,
+    backgroundColor: theme.colors.danger,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  deleteText: {
+    color: '#fff',
+    fontSize: theme.typography.small,
+    fontWeight: '700',
   },
   itemCard: {
     flexDirection: "row",
@@ -130,7 +199,6 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     borderRadius: theme.radius.md,
     backgroundColor: theme.colors.background,
-    marginBottom: theme.spacing.sm + 4,
   },
   itemInfo: {
     flex: 1,
@@ -143,8 +211,5 @@ const styles = StyleSheet.create({
   itemDetails: {
     fontSize: theme.typography.label,
     color: theme.colors.textSecondary,
-  },
-  removeButton: {
-    padding: theme.spacing.sm,
   },
 });
