@@ -4,10 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { store, loadPersistedState } from './store';
-import AllRecipesStack from './AllRecipesStack';
-import FavoritesStack from './FavoritesStack';
-import ShoppingListStack from './ShoppingListStack';
+import { store, loadPersistedState } from './store/store';
+import AllRecipesStack from './navigation/AllRecipesStack';
+import FavoritesStack from './navigation/FavoritesStack';
+import ShoppingListStack from './navigation/ShoppingListStack';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,6 +1,6 @@
 import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { recipes as recipesData } from './recipes';
+import { recipes as recipesData } from '../data/recipes';
 
 // Async thunk to "load" recipes (simulates API call)
 export const loadRecipes = createAsyncThunk(
